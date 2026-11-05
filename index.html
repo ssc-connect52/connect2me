@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSC Connect — User Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,640&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest-950:#0e2318;
+    --forest-900:#153629;
+    --forest-800:#1f5a42;
+    --leaf-600:#4f8d72;
+    --leaf-300:#a9cdb9;
+    --gold-600:#b8923f;
+    --gold-400:#d3b364;
+    --gold-200:#efdfae;
+    --maroon-700:#7b3f34;
+    --maroon-500:#a4594a;
+    --paper:#f2f2e6;
+    --paper-card:#fbfaf3;
+    --ink:#16221b;
+    --ink-soft:#4d5b51;
+    --line: rgba(14,35,24,0.14);
+    --shadow-card: 0 30px 60px -34px rgba(14,35,24,0.45);
+    --shadow-soft: 0 14px 30px -18px rgba(14,35,24,0.35);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    color:var(--ink);
+    background-color:var(--paper);
+    background-image:
+      radial-gradient(circle at 8% 4%, rgba(184,146,63,0.10), transparent 40%),
+      radial-gradient(circle at 96% 18%, rgba(31,90,66,0.10), transparent 38%),
+      repeating-linear-gradient(0deg, rgba(14,35,24,0.018) 0px, rgba(14,35,24,0.018) 1px, transparent 1px, transparent 3px);
+    font-family:"Public Sans", Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;}
+
+  .wrap{
+    width:min(1100px, calc(100% - 40px));
+    margin:0 auto;
+  }
+
+  code{
+    font-family:"IBM Plex Mono", Consolas, monospace;
+    font-size:0.86em;
+    padding:2px 8px;
+    border-radius:6px;
+    background:rgba(31,90,66,0.09);
+    color:var(--forest-800);
+    border:1px solid rgba(31,90,66,0.14);
+  }
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    border-bottom:1px solid var(--line);
+    background:rgba(242,242,230,0.82);
+    backdrop-filter:blur(6px);
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  .topbar-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 0;
+  }
+  .topbar-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:"Fraunces", serif;
+    font-weight:640;
+    font-size:1.05rem;
+    letter-spacing:0.01em;
+  }
+  .topbar-mark{
+    width:30px;height:30px;border-radius:50%;
+    background:conic-gradient(from 220deg, var(--forest-800), var(--gold-500,var(--gold-600)), var(--forest-800));
+    display:grid;place-items:center;
+    box-shadow:inset 0 0 0 2px rgba(255,255,255,0.55);
+  }
+  .topbar-mark span{
+    color:#fff;font-size:0.62rem;font-weight:700;letter-spacing:0.04em;
+  }
+  .topbar-nav{
+    display:flex;
+    gap:22px;
+    font-size:0.86rem;
+    font-weight:600;
+    color:var(--ink-soft);
+  }
+  .topbar-nav a:hover{color:var(--forest-800);}
+
+  /* ---------- hero ---------- */
+  .hero-section{
+    padding:56px 0 20px;
+    overflow:visible;
+  }
+  .hero-grid{
+    display:grid;
+    gap:44px;
+    align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    font-weight:600;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--maroon-700);
+  }
+  .eyebrow::before{
+    content:"";
+    width:16px;height:1px;
+    background:var(--maroon-700);
+    display:inline-block;
+  }
+  .hero-copy h1{
+    font-family:"Fraunces", serif;
+    font-weight:560;
+    font-size:clamp(2.3rem, 4.6vw, 3.6rem);
+    line-height:1.03;
+    margin:14px 0 16px;
+    color:var(--forest-950);
+  }
+  .hero-copy h1 em{
+    font-style:italic;
+    color:var(--forest-800);
+  }
+  .hero-copy p{
+    max-width:46ch;
+    color:var(--ink-soft);
+    font-size:1.04rem;
+    line-height:1.65;
+    margin:0 0 26px;
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    min-height:50px;
+    padding:0 22px;
+    border-radius:10px;
+    font-weight:700;
+    font-size:0.94rem;
+    border:1px solid transparent;
+    transition:transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn.primary{
+    color:#fff;
+    background:linear-gradient(135deg, var(--forest-900), var(--forest-800));
+    box-shadow:var(--shadow-soft);
+  }
+  .btn.primary:hover{box-shadow:0 18px 32px -16px rgba(21,54,41,0.55);}
+  .btn.secondary{
+    color:var(--forest-900);
+    background:transparent;
+    border-color:var(--forest-800);
+  }
+  .btn.secondary:hover{background:rgba(31,90,66,0.07);}
+
+  /* ---------- ID card / lanyard signature ---------- */
+  .badge-stage{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    padding-top:10px;
+  }
+  .lanyard{
+    position:absolute;
+    top:-46px;
+    width:46px;
+    height:150px;
+    left:50%;
+    margin-left:-23px;
+    background:repeating-linear-gradient(-45deg, var(--forest-800) 0 10px, var(--gold-600) 10px 20px);
+    border-radius:4px;
+    box-shadow:var(--shadow-soft);
+    z-index:1;
+  }
+  .id-card{
+    position:relative;
+    z-index:2;
+    width:min(310px, 82vw);
+    margin-top:96px;
+    background:var(--paper-card);
+    border-radius:20px;
+    padding:26px 24px 22px;
+    box-shadow:var(--shadow-card);
+    border:1px solid rgba(14,35,24,0.08);
+    transform:rotate(-4deg);
+    animation:sway 7s ease-in-out infinite;
+    transform-origin:top center;
+  }
+  .id-card::before{
+    content:"";
+    position:absolute;
+    top:-13px;left:50%;
+    margin-left:-11px;
+    width:22px;height:22px;
+    border-radius:50%;
+    background:var(--gold-400);
+    box-shadow:inset 0 0 0 3px var(--paper-card), 0 2px 4px rgba(0,0,0,0.25);
+  }
+  .id-card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px dashed var(--line);
+    padding-bottom:12px;
+    margin-bottom:14px;
+  }
+  .id-card-top small{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.62rem;
+    letter-spacing:0.1em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+  }
+  .id-crest{
+    width:38px;height:38px;border-radius:50%;
+    background:conic-gradient(from 200deg, var(--forest-800), var(--gold-600), var(--maroon-700), var(--forest-800));
+    display:grid;place-items:center;
+    box-shadow:inset 0 0 0 2px rgba(255,255,255,0.6);
+  }
+  .id-crest span{color:#fff;font-family:"Fraunces",serif;font-weight:640;font-size:0.78rem;}
+  .id-photo{
+    width:100%;
+    aspect-ratio:4/3;
+    border-radius:12px;
+    background:
+      radial-gradient(circle at 50% 32%, rgba(255,255,255,0.5), transparent 55%),
+      linear-gradient(160deg, var(--forest-800), var(--forest-950));
+    display:grid;
+    place-items:center;
+    margin-bottom:14px;
+  }
+  .id-photo svg{width:56px;height:56px;}
+  .id-card h3{
+    font-family:"Fraunces", serif;
+    font-weight:640;
+    font-size:1.15rem;
+    margin:0 0 2px;
+    color:var(--forest-950);
+  }
+  .id-card p{
+    margin:0;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+  }
+  .id-card-foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:16px;
+    padding-top:12px;
+    border-top:1px dashed var(--line);
+  }
+  .id-status{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.66rem;
+    font-weight:600;
+    letter-spacing:0.04em;
+    color:var(--forest-800);
+    text-transform:uppercase;
+  }
+  .id-status::before{
+    content:"";
+    width:7px;height:7px;border-radius:50%;
+    background:var(--forest-800);
+  }
+  .id-barcode{
+    display:flex;
+    gap:2px;
+    align-items:flex-end;
+    height:18px;
+  }
+  .id-barcode i{
+    display:block;
+    width:2px;
+    background:var(--ink);
+    opacity:0.55;
+  }
+
+  @keyframes sway{
+    0%,100%{transform:rotate(-4deg);}
+    50%{transform:rotate(2deg);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .id-card{animation:none;}
+    .btn{transition:none;}
+  }
+
+  @media (min-width:860px){
+    .hero-grid{grid-template-columns:1.15fr 0.85fr;}
+  }
+
+  /* ---------- section shell ---------- */
+  .section{padding:34px 0;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:22px;
+  }
+  .section-head h2{
+    font-family:"Fraunces", serif;
+    font-weight:600;
+    font-size:1.7rem;
+    margin:0;
+    color:var(--forest-950);
+  }
+  .section-head .tag{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    color:var(--maroon-700);
+    letter-spacing:0.06em;
+  }
+
+  .two-col{
+    display:grid;
+    gap:22px;
+  }
+  @media (min-width:860px){
+    .two-col{grid-template-columns:1.2fr 1fr;}
+  }
+
+  /* ---------- clipboard / install steps ---------- */
+  .clipboard{
+    position:relative;
+    background:var(--paper-card);
+    border-radius:22px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-card);
+    padding:30px 24px 24px;
+  }
+  .clipboard::before{
+    content:"";
+    position:absolute;
+    top:-14px;left:50%;
+    margin-left:-46px;
+    width:92px;height:26px;
+    background:linear-gradient(180deg, var(--gold-400), var(--gold-600));
+    border-radius:8px;
+    box-shadow:0 6px 12px -6px rgba(0,0,0,0.3);
+  }
+  .checklist{list-style:none;margin:0;padding:0;display:grid;gap:12px;}
+  .checklist li{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    padding:14px 14px;
+    border-radius:14px;
+    border:1px solid rgba(14,35,24,0.07);
+    background:#fff;
+  }
+  .check-box{
+    flex:0 0 auto;
+    width:24px;height:24px;
+    border-radius:7px;
+    border:2px solid var(--forest-800);
+    display:grid;place-items:center;
+    margin-top:1px;
+  }
+  .check-box svg{width:14px;height:14px;stroke:var(--forest-800);}
+  .checklist strong{
+    display:block;
+    font-size:0.98rem;
+    margin-bottom:3px;
+    color:var(--forest-950);
+  }
+  .checklist span{
+    color:var(--ink-soft);
+    font-size:0.92rem;
+    line-height:1.55;
+  }
+
+  /* ---------- bulletin note card ---------- */
+  .bulletin{
+    position:relative;
+    background:var(--paper-card);
+    border-radius:22px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-card);
+    padding:28px 24px 22px;
+  }
+  .pin{
+    position:absolute;
+    top:-11px;left:28px;
+    width:22px;height:22px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--maroon-500), var(--maroon-700));
+    box-shadow:0 5px 10px -4px rgba(0,0,0,0.4);
+  }
+  .bulletin h2{
+    font-family:"Fraunces", serif;
+    font-weight:600;
+    font-size:1.4rem;
+    margin:6px 0 4px;
+    color:var(--forest-950);
+  }
+  .bulletin > p.lede{
+    color:var(--ink-soft);
+    font-size:0.92rem;
+    margin:0 0 18px;
+  }
+  .notes{display:grid;gap:12px;}
+  .note{
+    padding:14px 15px;
+    border-radius:14px;
+    background:#fff;
+    border:1px solid rgba(14,35,24,0.07);
+  }
+  .note strong{display:block;font-size:0.92rem;margin-bottom:4px;color:var(--forest-950);}
+  .note span{color:var(--ink-soft);font-size:0.88rem;line-height:1.55;}
+
+  .path-note{
+    margin-top:16px;
+    padding:14px 15px;
+    border-radius:14px;
+    background:linear-gradient(180deg, rgba(184,146,63,0.10), rgba(31,90,66,0.06));
+    border:1px dashed rgba(184,146,63,0.5);
+    font-size:0.86rem;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  .path-note strong{color:var(--forest-900);}
+
+  /* ---------- ticket-style account flow ---------- */
+  .ticket-row{
+    display:grid;
+    gap:0;
+    background:var(--paper-card);
+    border-radius:22px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow-card);
+    overflow:hidden;
+  }
+  @media (min-width:760px){
+    .ticket-row{grid-template-columns:repeat(3, 1fr);}
+  }
+  .ticket{
+    position:relative;
+    padding:26px 22px;
+    border-bottom:1px dashed var(--line);
+  }
+  @media (min-width:760px){
+    .ticket{border-bottom:none;border-right:1px dashed var(--line);}
+    .ticket:last-child{border-right:none;}
+  }
+  .ticket:last-child{border-bottom:none;}
+  .ticket-num{
+    font-family:"Fraunces", serif;
+    font-weight:640;
+    font-size:2.1rem;
+    color:var(--gold-600);
+    line-height:1;
+    margin-bottom:10px;
+  }
+  .ticket h3{
+    font-family:"Fraunces", serif;
+    font-weight:600;
+    font-size:1.15rem;
+    margin:0 0 6px;
+    color:var(--forest-950);
+  }
+  .ticket p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:0.9rem;
+    line-height:1.55;
+  }
+  .ticket-punch{
+    position:absolute;
+    width:16px;height:16px;
+    border-radius:50%;
+    background:var(--paper);
+    box-shadow:inset 0 0 0 1px var(--line);
+    top:50%;
+    right:-8px;
+    transform:translateY(-50%);
+  }
+  @media (max-width:759px){
+    .ticket-punch{top:auto;bottom:-8px;right:50%;transform:translateX(50%);} 
+  }
+  .ticket:last-child .ticket-punch{display:none;}
+
+  /* ---------- footer stamp ---------- */
+  footer{
+    padding:44px 0 56px;
+    text-align:center;
+  }
+  .stamp{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 18px;
+    border-radius:999px;
+    border:1px solid rgba(123,63,52,0.35);
+    color:var(--maroon-700);
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  footer p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:0.88rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="topbar-brand">
+      <span class="topbar-mark"><span>SSC</span></span>
+      SSC Connect
+    </div>
+    <nav class="topbar-nav">
+      <a href="#guide">Install Guide</a>
+      <a href="#account">Account Flow</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <section class="hero-section">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Supreme Student Council · Official App</span>
+        <h1>Your student ID, <em>digitized.</em></h1>
+        <p>
+          Download SSC Connect to receive announcements, track campus events, and stay
+          looped in on everything the council posts — straight from your phone.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="./app-debug.apk">Download the APK</a>
+          <a class="btn secondary" href="#guide">See install steps</a>
+        </div>
+      </div>
+
+      <div class="badge-stage">
+        <div class="lanyard" aria-hidden="true"></div>
+        <div class="id-card">
+          <div class="id-card-top">
+            <small>MSU–SND · Member</small>
+            <div class="id-crest"><span>SSC</span></div>
+          </div>
+          <div class="id-photo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="8.5" r="3.6" stroke="rgba(255,255,255,0.85)" stroke-width="1.4"/>
+              <path d="M4.5 20c1.2-4 4-6 7.5-6s6.3 2 7.5 6" stroke="rgba(255,255,255,0.85)" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>SSC Connect</h3>
+          <p>Announcements · Events · Notifications</p>
+          <div class="id-card-foot">
+            <span class="id-status">Active</span>
+            <div class="id-barcode" aria-hidden="true">
+              <i style="height:10px"></i><i style="height:16px"></i><i style="height:8px"></i>
+              <i style="height:14px"></i><i style="height:18px"></i><i style="height:9px"></i>
+              <i style="height:13px"></i><i style="height:7px"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="guide">
+    <div class="wrap two-col">
+      <div class="clipboard">
+        <div class="section-head">
+          <h2>How to Install</h2>
+          <span class="tag">4 steps</span>
+        </div>
+        <ol class="checklist">
+          <li>
+            <span class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L19 7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div>
+              <strong>Download the APK</strong>
+              <span>Tap <code>Download the APK</code> at the top of this page.</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L19 7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div>
+              <strong>Allow installs if prompted</strong>
+              <span>If Android blocks the file, allow installs from your browser or file manager in your phone settings.</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L19 7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div>
+              <strong>Open the APK file</strong>
+              <span>Once the download finishes, open it and tap <code>Install</code>.</span>
+            </div>
+          </li>
+          <li>
+            <span class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L19 7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div>
+              <strong>Launch SSC Connect</strong>
+              <span>Open the app and continue with account registration or login.</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="bulletin">
+        <div class="pin" aria-hidden="true"></div>
+        <h2>Before You Start</h2>
+        <p class="lede">Three things to check before you register.</p>
+        <div class="notes">
+          <div class="note">
+            <strong>Use your institutional email</strong>
+            <span>Only <code>@msusnd.edu.ph</code> accounts can register and verify.</span>
+          </div>
+          <div class="note">
+            <strong>Internet is required</strong>
+            <span>Needed for sign-up, email verification, login, and notification setup.</span>
+          </div>
+          <div class="note">
+            <strong>Enable notifications</strong>
+            <span>So you receive announcements, event updates, and alerts in real time.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="account">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Basic Account Flow</h2>
+        <span class="tag">Register → Verify → Log in</span>
+      </div>
+      <div class="ticket-row">
+        <div class="ticket">
+          <div class="ticket-num">01</div>
+          <h3>Register</h3>
+          <p>Enter your full name, institutional email, and password in the app.</p>
+          <span class="ticket-punch" aria-hidden="true"></span>
+        </div>
+        <div class="ticket">
+          <div class="ticket-num">02</div>
+          <h3>Verify your email</h3>
+          <p>Open the verification link sent to your institutional inbox.</p>
+          <span class="ticket-punch" aria-hidden="true"></span>
+        </div>
+        <div class="ticket">
+          <div class="ticket-num">03</div>
+          <h3>Log in</h3>
+          <p>Sign in to access announcements, events, notifications, and more.</p>
+          <span class="ticket-punch" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="stamp">Official Student App</div>
+      <p>SSC Connect · Mindanao State University – Sultan Naga Dimaporo</p>
+    </div>
+  </footer>
+</main>
+
+</body>
+</html>
